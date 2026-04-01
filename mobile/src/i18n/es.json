@@ -1,0 +1,125 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "retry": "Reintentar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "delete": "Eliminar",
+    "confirm": "Confirmar",
+    "done": "Hecho",
+    "search": "Buscar"
+  },
+  "tabs": {
+    "home": "Inicio",
+    "clearances": "Autorizaciones",
+    "chat": "Asistente",
+    "settings": "Configuración"
+  },
+  "home": {
+    "title": "Mis Proyectos de Reconstrucción",
+    "subtitle": "Siga el progreso de su permiso de reconstrucción",
+    "noProjects": "Listo para comenzar su reconstrucción",
+    "noProjectsHelp": "Le guiaremos en cada paso del proceso de permiso.",
+    "startFirst": "Iniciar Su Primer Proyecto",
+    "createProject": "Crear Nuevo Proyecto",
+    "activeProjects": "Proyectos Activos",
+    "completedProjects": "Completados",
+    "errorTitle": "No pudimos cargar sus proyectos en este momento",
+    "errorSubtext": "Sus datos están seguros — esto es generalmente un problema temporal de conexión.",
+    "tryAgain": "Intentar de Nuevo",
+    "createA11y": "Crear nuevo proyecto de reconstrucción"
+  },
+  "project": {
+    "status": "Estado",
+    "pathway": "Vía de Permiso",
+    "clearances": "Autorizaciones",
+    "inspections": "Inspecciones",
+    "documents": "Documentos",
+    "timeline": "Plazo Estimado",
+    "uploadDocument": "Subir Documento",
+    "viewClearances": "Ver Todas las Autorizaciones",
+    "estimatedDays": "{{days}} días estimados",
+    "address": "Dirección",
+    "apn": "APN",
+    "created": "Creado",
+    "pathways": {
+      "eo1_like_for_like": "EO1 - Igual por Igual",
+      "eo8_expanded": "EO8 - Ampliado",
+      "standard": "Permiso Estándar"
+    },
+    "statuses": {
+      "intake": "Recepción",
+      "in_review": "En Revisión",
+      "approved": "Aprobado",
+      "issued": "Emitido",
+      "inspection": "Inspección",
+      "final": "Final",
+      "closed": "Cerrado"
+    }
+  },
+  "clearance": {
+    "notStarted": "No Iniciado",
+    "inReview": "En Revisión",
+    "approved": "Aprobado",
+    "conditional": "Condicional",
+    "denied": "Denegado",
+    "department": "Departamento",
+    "type": "Tipo",
+    "predictedDays": "{{days}} días previstos",
+    "isBottleneck": "Cuello de botella detectado",
+    "noClearances": "Sin autorizaciones para rastrear",
+    "progress": "{{completed}} de {{total}} completos"
+  },
+  "chat": {
+    "placeholder": "Pregunte sobre su permiso...",
+    "title": "Asistente de Permisos",
+    "welcome": "¡Hola! Soy su asistente de permisos. Pregúnteme lo que quiera sobre su proceso de permiso de reconstrucción.",
+    "thinking": "Pensando...",
+    "errorMessage": "Lo siento, no pude procesar su mensaje. Inténtelo de nuevo.",
+    "examples": {
+      "title": "Intente preguntar:",
+      "q1": "¿Qué autorizaciones necesito?",
+      "q2": "¿Cuánto tardará mi permiso?",
+      "q3": "¿Qué documentos debo presentar?"
+    }
+  },
+  "upload": {
+    "title": "Subir Documento",
+    "takePhoto": "Tomar Foto",
+    "chooseFile": "Elegir Archivo",
+    "documentType": "Tipo de Documento",
+    "uploading": "Subiendo...",
+    "success": "Documento subido exitosamente",
+    "types": {
+      "plans": "Planos de Construcción",
+      "permit_application": "Solicitud de Permiso",
+      "insurance": "Documentos de Seguro",
+      "photos": "Fotos del Sitio",
+      "other": "Otro"
+    }
+  },
+  "settings": {
+    "title": "Configuración",
+    "language": "Idioma",
+    "notifications": "Notificaciones",
+    "pushNotifications": "Notificaciones Push",
+    "smsNotifications": "Notificaciones SMS",
+    "emailNotifications": "Notificaciones por Email",
+    "appearance": "Apariencia",
+    "darkMode": "Modo Oscuro",
+    "about": "Acerca de",
+    "version": "Versión",
+    "logout": "Cerrar Sesión",
+    "logoutConfirm": "¿Está seguro de que desea cerrar sesión?"
+  },
+  "notifications": {
+    "clearanceUpdate": "Actualización de Autorización",
+    "inspectionScheduled": "Inspección Programada",
+    "documentRequired": "Documento Requerido",
+    "permitUpdate": "Actualización del Permiso",
+    "bottleneckDetected": "Cuello de Botella Detectado"
+  }
+}

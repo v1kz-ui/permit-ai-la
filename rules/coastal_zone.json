@@ -1,0 +1,26 @@
+{
+  "rule_id": "coastal_zone",
+  "name": "California Coastal Zone Requirements",
+  "version": "1.0.0",
+  "description": "Additional requirements for properties within the Coastal Zone boundary",
+  "trigger_condition": {"field": "is_coastal_zone", "operator": "eq", "value": true},
+  "additional_clearances": [
+    {
+      "type": "coastal_development_permit",
+      "department": "dcp",
+      "description": "Coastal Development Permit from City Planning",
+      "typical_days": 45,
+      "notes": "May require California Coastal Commission review if appealed"
+    }
+  ],
+  "restrictions": [
+    "Structures must comply with Coastal Act height and bulk limitations",
+    "Public access requirements may apply",
+    "Environmentally Sensitive Habitat Area (ESHA) setbacks required",
+    "View corridor protections enforced"
+  ],
+  "exemptions_for_fire_rebuild": [
+    "Categorical exclusion may apply for like-for-like rebuild under EO1",
+    "Expedited review timeline for fire victims"
+  ]
+}

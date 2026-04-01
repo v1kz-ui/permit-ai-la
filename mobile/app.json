@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "PermitAI LA",
+    "slug": "permitai-la",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "permitai",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#1e3a5f"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "la.permitai.app"
+    },
+    "android": {
+      "package": "la.permitai.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#1e3a5f"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["expo-router"]
+  }
+}

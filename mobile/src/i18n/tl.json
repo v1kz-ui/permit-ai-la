@@ -1,0 +1,119 @@
+{
+  "common": {
+    "loading": "Naglo-load...",
+    "error": "May nangyaring mali",
+    "retry": "Subukan muli",
+    "save": "I-save",
+    "cancel": "Kanselahin",
+    "back": "Bumalik",
+    "next": "Susunod",
+    "delete": "Tanggalin",
+    "confirm": "Kumpirmahin",
+    "done": "Tapos na",
+    "search": "Maghanap"
+  },
+  "tabs": {
+    "home": "Home",
+    "clearances": "Clearances",
+    "chat": "Assistant",
+    "settings": "Settings"
+  },
+  "home": {
+    "title": "Mga Proyekto ng Muling Pagtatayo",
+    "subtitle": "Subaybayan ang progreso ng iyong permit sa muling pagtatayo",
+    "noProjects": "Wala pang mga proyekto",
+    "createProject": "Gumawa ng Bagong Proyekto",
+    "activeProjects": "Mga Aktibong Proyekto",
+    "completedProjects": "Nakumpleto"
+  },
+  "project": {
+    "status": "Katayuan",
+    "pathway": "Landas ng Permit",
+    "clearances": "Mga Clearance",
+    "inspections": "Mga Inspeksyon",
+    "documents": "Mga Dokumento",
+    "timeline": "Tinatayang Timeline",
+    "uploadDocument": "Mag-upload ng Dokumento",
+    "viewClearances": "Tingnan Lahat ng Clearance",
+    "estimatedDays": "{{days}} araw na tinatayang",
+    "address": "Address",
+    "apn": "APN",
+    "created": "Ginawa",
+    "pathways": {
+      "eo1_like_for_like": "EO1 - Kapareho ng Dati",
+      "eo8_expanded": "EO8 - Pinalawak",
+      "standard": "Karaniwang Permit"
+    },
+    "statuses": {
+      "intake": "Pagtanggap",
+      "in_review": "Sinusuri",
+      "approved": "Aprubado",
+      "issued": "Inilabas",
+      "inspection": "Inspeksyon",
+      "final": "Pinal",
+      "closed": "Sarado"
+    }
+  },
+  "clearance": {
+    "notStarted": "Hindi Pa Nagsimula",
+    "inReview": "Sinusuri",
+    "approved": "Aprubado",
+    "conditional": "May Kondisyon",
+    "denied": "Tinanggihan",
+    "department": "Departamento",
+    "type": "Uri",
+    "predictedDays": "{{days}} araw na tinatayang",
+    "isBottleneck": "May nakitang bottleneck",
+    "noClearances": "Walang clearance na susubaybayan",
+    "progress": "{{completed}} sa {{total}} ang tapos na"
+  },
+  "chat": {
+    "placeholder": "Magtanong tungkol sa iyong permit...",
+    "title": "Permit Assistant",
+    "welcome": "Kumusta! Ako ang iyong permit assistant. Magtanong ng kahit ano tungkol sa proseso ng iyong fire rebuild permit.",
+    "thinking": "Nag-iisip...",
+    "errorMessage": "Paumanhin, hindi ko naproseso ang iyong mensahe. Subukan muli.",
+    "examples": {
+      "title": "Subukan itanong:",
+      "q1": "Anong mga clearance ang kailangan ko?",
+      "q2": "Gaano katagal ang aking permit?",
+      "q3": "Anong mga dokumento ang dapat kong isumite?"
+    }
+  },
+  "upload": {
+    "title": "Mag-upload ng Dokumento",
+    "takePhoto": "Kumuha ng Larawan",
+    "chooseFile": "Pumili ng File",
+    "documentType": "Uri ng Dokumento",
+    "uploading": "Nag-a-upload...",
+    "success": "Matagumpay na na-upload ang dokumento",
+    "types": {
+      "plans": "Mga Plano ng Gusali",
+      "permit_application": "Aplikasyon ng Permit",
+      "insurance": "Mga Dokumento ng Insurance",
+      "photos": "Mga Larawan ng Site",
+      "other": "Iba pa"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Wika",
+    "notifications": "Mga Abiso",
+    "pushNotifications": "Push Notifications",
+    "smsNotifications": "SMS Notifications",
+    "emailNotifications": "Email Notifications",
+    "appearance": "Hitsura",
+    "darkMode": "Dark Mode",
+    "about": "Tungkol sa",
+    "version": "Bersyon",
+    "logout": "Mag-log Out",
+    "logoutConfirm": "Sigurado ka bang gusto mong mag-log out?"
+  },
+  "notifications": {
+    "clearanceUpdate": "Update ng Clearance",
+    "inspectionScheduled": "Naka-iskedyul na Inspeksyon",
+    "documentRequired": "Kailangan ng Dokumento",
+    "permitUpdate": "Update ng Status ng Permit",
+    "bottleneckDetected": "May Nakitang Bottleneck"
+  }
+}

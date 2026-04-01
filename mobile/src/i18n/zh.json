@@ -1,0 +1,119 @@
+{
+  "common": {
+    "loading": "加载中...",
+    "error": "出了点问题",
+    "retry": "重试",
+    "save": "保存",
+    "cancel": "取消",
+    "back": "返回",
+    "next": "下一步",
+    "delete": "删除",
+    "confirm": "确认",
+    "done": "完成",
+    "search": "搜索"
+  },
+  "tabs": {
+    "home": "首页",
+    "clearances": "审批",
+    "chat": "助手",
+    "settings": "设置"
+  },
+  "home": {
+    "title": "我的重建项目",
+    "subtitle": "跟踪您的火灾重建许可进度",
+    "noProjects": "暂无项目",
+    "createProject": "创建新项目",
+    "activeProjects": "进行中的项目",
+    "completedProjects": "已完成"
+  },
+  "project": {
+    "status": "状态",
+    "pathway": "许可途径",
+    "clearances": "审批",
+    "inspections": "检查",
+    "documents": "文件",
+    "timeline": "预计时间线",
+    "uploadDocument": "上传文件",
+    "viewClearances": "查看所有审批",
+    "estimatedDays": "预计{{days}}天",
+    "address": "地址",
+    "apn": "APN",
+    "created": "创建日期",
+    "pathways": {
+      "eo1_like_for_like": "EO1 - 同等重建",
+      "eo8_expanded": "EO8 - 扩展",
+      "standard": "标准许可"
+    },
+    "statuses": {
+      "intake": "受理",
+      "in_review": "审查中",
+      "approved": "已批准",
+      "issued": "已发放",
+      "inspection": "检查",
+      "final": "最终",
+      "closed": "已关闭"
+    }
+  },
+  "clearance": {
+    "notStarted": "未开始",
+    "inReview": "审查中",
+    "approved": "已批准",
+    "conditional": "有条件",
+    "denied": "已拒绝",
+    "department": "部门",
+    "type": "类型",
+    "predictedDays": "预计{{days}}天",
+    "isBottleneck": "检测到瓶颈",
+    "noClearances": "没有需要跟踪的审批",
+    "progress": "{{completed}}/{{total}} 已完成"
+  },
+  "chat": {
+    "placeholder": "询问您的许可...",
+    "title": "许可助手",
+    "welcome": "您好！我是您的许可助手。关于火灾重建许可流程，请随时向我提问。",
+    "thinking": "思考中...",
+    "errorMessage": "抱歉，无法处理您的消息。请重试。",
+    "examples": {
+      "title": "试试这些问题：",
+      "q1": "我需要哪些审批？",
+      "q2": "许可需要多长时间？",
+      "q3": "我应该提交哪些文件？"
+    }
+  },
+  "upload": {
+    "title": "上传文件",
+    "takePhoto": "拍照",
+    "chooseFile": "选择文件",
+    "documentType": "文件类型",
+    "uploading": "上传中...",
+    "success": "文件上传成功",
+    "types": {
+      "plans": "建筑图纸",
+      "permit_application": "许可申请",
+      "insurance": "保险文件",
+      "photos": "现场照片",
+      "other": "其他"
+    }
+  },
+  "settings": {
+    "title": "设置",
+    "language": "语言",
+    "notifications": "通知",
+    "pushNotifications": "推送通知",
+    "smsNotifications": "短信通知",
+    "emailNotifications": "邮件通知",
+    "appearance": "外观",
+    "darkMode": "深色模式",
+    "about": "关于",
+    "version": "版本",
+    "logout": "退出登录",
+    "logoutConfirm": "确定要退出登录吗？"
+  },
+  "notifications": {
+    "clearanceUpdate": "审批更新",
+    "inspectionScheduled": "检查已安排",
+    "documentRequired": "需要文件",
+    "permitUpdate": "许可状态更新",
+    "bottleneckDetected": "检测到瓶颈"
+  }
+}

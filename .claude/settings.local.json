@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for dir:*)",
+      "Bash(do touch:*)",
+      "Bash(done)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npm install:*)",
+      "Bash(timeout 8)",
+      "Bash(npx next:*)",
+      "Bash(node -e \"const r=require\\(''child_process''\\);const p=r.spawn\\(''npx'',[''next'',''dev'',''--port'',''3001''],{cwd:''C:\\\\\\\\Users\\\\\\\\Song Nivi\\\\\\\\Dev\\\\\\\\Permit AI for LA\\\\\\\\dashboard'',shell:true}\\);let out='''';p.stdout.on\\(''data'',\\(d\\)=>{out+=d;if\\(out.includes\\(''Ready''\\)||out.includes\\(''compiled''\\)\\){console.log\\(out\\);process.exit\\(0\\);}}\\);p.stderr.on\\(''data'',\\(d\\)=>{out+=d;}\\);setTimeout\\(\\(\\)=>{console.log\\(out\\);process.exit\\(0\\);},25000\\);\")",
+      "Bash(ls \"C:\\\\Users\\\\Song Nivi\\\\Dev\\\\Permit AI for LA\\\\dashboard\\\\.next\\\\static\\\\css\"\" 2>/dev/null || echo \"No CSS files \")",
+      "Bash(curl -s http://localhost:3000/_next/static/css/app/layout.css)",
+      "Bash(node -e \"try { const v = require\\(''./node_modules/tailwindcss/package.json''\\).version; console.log\\(''TW version:'', v\\); } catch\\(e\\) { console.log\\(''Error:'', e.message\\); }\")",
+      "Bash(npx tsc:*)",
+      "Bash(find 'C:\\\\Users\\\\Song Nivi\\\\Dev\\\\Permit AI for LA\\\\backend' -maxdepth 2 -type f \\\\\\(-name .env* -o -name docker-compose* -o -name main.py -o -name alembic.ini -o -name requirements.txt -o -name pyproject.toml -o -name Makefile -o -name *.sh \\\\\\))",
+      "Bash(docker compose:*)",
+      "Bash(where docker:*)",
+      "Bash(cmd /c 'where docker')",
+      "Read(//c/Program Files/**)",
+      "Read(//c/Users/Song Nivi/Dev/Permit AI for LA/$LOCALAPPDATA/**)",
+      "Bash(pip show:*)",
+      "Bash(cmd /c 'docker --version')",
+      "Read(//c/Users/Song Nivi/AppData/Local/**)",
+      "Bash(cmd /c \"docker compose up -d postgres redis\")",
+      "Bash(cmd /c \"cd \"\"C:\\\\Users\\\\Song Nivi\\\\Dev\\\\Permit AI for LA\"\" && docker compose up -d postgres redis\")",
+      "Bash(powershell -Command \"Set-Location ''C:\\\\Users\\\\Song Nivi\\\\Dev\\\\Permit AI for LA''; docker compose up -d postgres redis\")",
+      "Bash(powershell -Command \"Get-Item ''C:\\\\Program Files\\\\Docker\\\\Docker\\\\resources\\\\bin\\\\docker.exe'' -ErrorAction SilentlyContinue | Select FullName; Get-Item ''$env:PROGRAMFILES\\\\Docker\\\\Docker\\\\resources\\\\bin\\\\docker.exe'' -ErrorAction SilentlyContinue | Select FullName\")",
+      "Bash(powershell -Command \"Get-ChildItem ''''C:\\\\Program Files\\\\Docker'''' -Recurse -Filter ''''docker.exe'''' -ErrorAction SilentlyContinue | Select-Object FullName | Head 5\")",
+      "Bash(powershell -Command \"Test-Path ''C:\\\\Program Files\\\\Docker''; Test-Path ''C:\\\\Program Files\\\\Docker\\\\Docker\\\\Docker Desktop.exe''\")",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\'' -Directory | Select Name\")",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\Program Files'' | Select Name | Where-Object { $_.Name -match ''Docker|Rancher|Podman|container'' }\")",
+      "Bash(powershell -Command \"Get-Service -Name postgresql* -ErrorAction SilentlyContinue | Select Name, Status; Get-Service -Name redis* -ErrorAction SilentlyContinue | Select Name, Status\")",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\Program Files\\\\PostgreSQL'' -ErrorAction SilentlyContinue | Select Name; Get-ChildItem ''C:\\\\Program Files \\(x86\\)\\\\PostgreSQL'' -ErrorAction SilentlyContinue | Select Name\")",
+      "Bash(powershell -Command \"netstat -ano | findstr '':5432 :6379''\")",
+      "Bash(powershell -Command \"Add-Type -AssemblyName System.IO; $file = ''C:\\\\Users\\\\Song Nivi\\\\Dev\\\\Permit AI for LA\\\\permitai_blueprint.pdf''; \\(Get-Item $file\\).Length / 1MB\")",
+      "Bash(powershell -Command \"$f = ''C:\\\\Users\\\\Song Nivi\\\\Dev\\\\Permit AI for LA\\\\permitai_blueprint.pdf''; \\(Get-Item $f\\).Length\")",
+      "Bash(python -c \":*)"
+    ]
+  }
+}

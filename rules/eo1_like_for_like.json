@@ -1,0 +1,44 @@
+{
+  "rule_id": "eo1_like_for_like",
+  "name": "Executive Order 1 - Like-for-Like Rebuild",
+  "version": "1.0.0",
+  "effective_date": "2025-01-08",
+  "description": "Allows expedited rebuilding of destroyed structures to match or slightly exceed original specifications",
+  "eligibility": {
+    "conditions": [
+      {"field": "fire_destroyed", "operator": "eq", "value": true},
+      {"field": "declared_disaster_area", "operator": "eq", "value": true}
+    ],
+    "constraints": {
+      "max_sqft_increase_pct": 10,
+      "same_footprint": true,
+      "same_use_type": true,
+      "max_stories": "original_plus_zero",
+      "max_height_ft": "original_plus_zero"
+    }
+  },
+  "exemptions": [
+    "full_environmental_review",
+    "design_review_board",
+    "conditional_use_permit"
+  ],
+  "still_required": [
+    "building_permit",
+    "zoning_clearance",
+    "fire_life_safety",
+    "sewer_connection",
+    "water_service"
+  ],
+  "conditional_requirements": [
+    {"condition": "is_coastal_zone", "requires": "coastal_development_permit"},
+    {"condition": "is_hillside", "requires": "grading_permit"},
+    {"condition": "is_very_high_fire_severity", "requires": "brush_clearance"},
+    {"condition": "is_historic", "requires": "historic_review"}
+  ],
+  "estimated_timeline_days": {
+    "standard": 45,
+    "with_coastal": 90,
+    "with_hillside": 75,
+    "with_both": 120
+  }
+}

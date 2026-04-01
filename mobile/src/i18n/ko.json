@@ -1,0 +1,119 @@
+{
+  "common": {
+    "loading": "로딩 중...",
+    "error": "문제가 발생했습니다",
+    "retry": "재시도",
+    "save": "저장",
+    "cancel": "취소",
+    "back": "뒤로",
+    "next": "다음",
+    "delete": "삭제",
+    "confirm": "확인",
+    "done": "완료",
+    "search": "검색"
+  },
+  "tabs": {
+    "home": "홈",
+    "clearances": "허가",
+    "chat": "어시스턴트",
+    "settings": "설정"
+  },
+  "home": {
+    "title": "내 재건축 프로젝트",
+    "subtitle": "화재 재건축 허가 진행 상황 추적",
+    "noProjects": "프로젝트가 없습니다",
+    "createProject": "새 프로젝트 만들기",
+    "activeProjects": "진행 중인 프로젝트",
+    "completedProjects": "완료됨"
+  },
+  "project": {
+    "status": "상태",
+    "pathway": "허가 경로",
+    "clearances": "허가",
+    "inspections": "검사",
+    "documents": "서류",
+    "timeline": "예상 일정",
+    "uploadDocument": "서류 업로드",
+    "viewClearances": "모든 허가 보기",
+    "estimatedDays": "{{days}}일 예상",
+    "address": "주소",
+    "apn": "APN",
+    "created": "생성일",
+    "pathways": {
+      "eo1_like_for_like": "EO1 - 동일 재건축",
+      "eo8_expanded": "EO8 - 확장",
+      "standard": "표준 허가"
+    },
+    "statuses": {
+      "intake": "접수",
+      "in_review": "검토 중",
+      "approved": "승인됨",
+      "issued": "발급됨",
+      "inspection": "검사",
+      "final": "최종",
+      "closed": "종료"
+    }
+  },
+  "clearance": {
+    "notStarted": "미시작",
+    "inReview": "검토 중",
+    "approved": "승인됨",
+    "conditional": "조건부",
+    "denied": "거부됨",
+    "department": "부서",
+    "type": "유형",
+    "predictedDays": "{{days}}일 예상",
+    "isBottleneck": "병목 감지됨",
+    "noClearances": "추적할 허가가 없습니다",
+    "progress": "{{total}} 중 {{completed}} 완료"
+  },
+  "chat": {
+    "placeholder": "허가에 대해 질문하세요...",
+    "title": "허가 어시스턴트",
+    "welcome": "안녕하세요! 저는 허가 어시스턴트입니다. 화재 재건축 허가 절차에 대해 무엇이든 물어보세요.",
+    "thinking": "생각 중...",
+    "errorMessage": "죄송합니다. 메시지를 처리할 수 없었습니다. 다시 시도해 주세요.",
+    "examples": {
+      "title": "이런 질문을 해보세요:",
+      "q1": "어떤 허가가 필요한가요?",
+      "q2": "허가가 얼마나 걸리나요?",
+      "q3": "어떤 서류를 제출해야 하나요?"
+    }
+  },
+  "upload": {
+    "title": "서류 업로드",
+    "takePhoto": "사진 촬영",
+    "chooseFile": "파일 선택",
+    "documentType": "서류 유형",
+    "uploading": "업로드 중...",
+    "success": "서류가 성공적으로 업로드되었습니다",
+    "types": {
+      "plans": "건축 도면",
+      "permit_application": "허가 신청서",
+      "insurance": "보험 서류",
+      "photos": "현장 사진",
+      "other": "기타"
+    }
+  },
+  "settings": {
+    "title": "설정",
+    "language": "언어",
+    "notifications": "알림",
+    "pushNotifications": "푸시 알림",
+    "smsNotifications": "SMS 알림",
+    "emailNotifications": "이메일 알림",
+    "appearance": "외관",
+    "darkMode": "다크 모드",
+    "about": "정보",
+    "version": "버전",
+    "logout": "로그아웃",
+    "logoutConfirm": "로그아웃 하시겠습니까?"
+  },
+  "notifications": {
+    "clearanceUpdate": "허가 업데이트",
+    "inspectionScheduled": "검사 예정",
+    "documentRequired": "서류 필요",
+    "permitUpdate": "허가 상태 업데이트",
+    "bottleneckDetected": "병목 감지됨"
+  }
+}

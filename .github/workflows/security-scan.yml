@@ -1,0 +1,151 @@
+name: Security Scan
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Weekly on Monday at 6 AM UTC
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Audit Python dependencies
+        run: |
+          pip install pip-audit
+          cd backend
+          pip install -e .
+          pip-audit --format json --output ../python-audit.json || true
+          pip-audit --desc || true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Audit dashboard dependencies
+        run: |
+          cd dashboard
+          npm ci
+          npm audit --json > ../dashboard-audit.json || true
+          npm audit || true
+
+      - name: Upload audit results
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-audit-results
+          path: |
+            python-audit.json
+            dashboard-audit.json
+
+  sast-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run Bandit (Python SAST)
+        run: |
+          pip install bandit[toml]
+          bandit -r backend/app/ \
+            -f json \
+            -o bandit-results.json \
+            --severity-level medium \
+            --confidence-level medium \
+            || true
+
+      - name: Check for critical findings
+        run: |
+          if [ -f bandit-results.json ]; then
+            CRITICAL=$(python3 -c "
+          import json
+          with open('bandit-results.json') as f:
+              data = json.load(f)
+          high = [r for r in data.get('results', []) if r.get('issue_severity') == 'HIGH']
+          print(len(high))
+          ")
+            echo "Critical findings: $CRITICAL"
+            if [ "$CRITICAL" -gt 0 ]; then
+              echo "::warning::Found $CRITICAL high-severity findings in Bandit scan"
+            fi
+          fi
+
+      - name: Upload SAST results
+        uses: actions/upload-artifact@v4
+        with:
+          name: sast-results
+          path: bandit-results.json
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run TruffleHog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --only-verified
+
+  container-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build API image for scanning
+        run: |
+          docker build \
+            -f infrastructure/docker/api.Dockerfile \
+            -t permitai-api:scan \
+            .
+
+      - name: Run Trivy container scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: "permitai-api:scan"
+          format: "json"
+          output: "trivy-results.json"
+          severity: "CRITICAL,HIGH"
+
+      - name: Check for critical vulnerabilities
+        run: |
+          if [ -f trivy-results.json ]; then
+            CRITICAL=$(python3 -c "
+          import json
+          with open('trivy-results.json') as f:
+              data = json.load(f)
+          vulns = []
+          for result in data.get('Results', []):
+              for v in result.get('Vulnerabilities', []):
+                  if v.get('Severity') == 'CRITICAL':
+                      vulns.append(v['VulnerabilityID'])
+          print(len(vulns))
+          ")
+            echo "Critical container vulnerabilities: $CRITICAL"
+            if [ "$CRITICAL" -gt 0 ] && [ "${{ github.event_name }}" == "pull_request" ]; then
+              echo "::error::Found $CRITICAL critical container vulnerabilities. Failing PR."
+              exit 1
+            fi
+          fi
+
+      - name: Upload Trivy results
+        uses: actions/upload-artifact@v4
+        with:
+          name: container-scan-results
+          path: trivy-results.json

@@ -1,0 +1,83 @@
+{
+  "clearance_taxonomy": [
+    {
+      "department": "ladbs",
+      "clearances": [
+        {"type": "building_permit", "description": "Building permit clearance", "always_required": true},
+        {"type": "electrical_permit", "description": "Electrical permit clearance", "always_required": true},
+        {"type": "plumbing_permit", "description": "Plumbing permit clearance", "always_required": true},
+        {"type": "mechanical_permit", "description": "Mechanical/HVAC permit clearance", "always_required": true},
+        {"type": "grading_permit", "description": "Grading permit for hillside properties", "always_required": false, "condition": "is_hillside"}
+      ]
+    },
+    {
+      "department": "dcp",
+      "clearances": [
+        {"type": "zoning_clearance", "description": "Zoning conformance verification", "always_required": true},
+        {"type": "coastal_development_permit", "description": "Coastal Development Permit", "always_required": false, "condition": "is_coastal_zone"},
+        {"type": "specific_plan_compliance", "description": "Specific Plan area compliance review", "always_required": false, "condition": "has_specific_plan"},
+        {"type": "hpoz_review", "description": "Historic Preservation Overlay Zone review", "always_required": false, "condition": "has_hpoz"}
+      ]
+    },
+    {
+      "department": "boe",
+      "clearances": [
+        {"type": "sewer_connection", "description": "Sewer connection/capacity clearance", "always_required": true},
+        {"type": "street_improvement", "description": "Street/sidewalk improvement requirements", "always_required": false},
+        {"type": "haul_route", "description": "Haul route approval for demolition debris", "always_required": false, "condition": "is_hillside"}
+      ]
+    },
+    {
+      "department": "lafd",
+      "clearances": [
+        {"type": "fire_life_safety", "description": "Fire/life safety plan review", "always_required": true},
+        {"type": "brush_clearance", "description": "Brush clearance verification", "always_required": false, "condition": "is_very_high_fire_severity"},
+        {"type": "fire_flow", "description": "Fire flow/hydrant adequacy", "always_required": false, "condition": "is_very_high_fire_severity"}
+      ]
+    },
+    {
+      "department": "ladwp",
+      "clearances": [
+        {"type": "water_service", "description": "Water service connection clearance", "always_required": true},
+        {"type": "power_service", "description": "Electrical service connection clearance", "always_required": true}
+      ]
+    },
+    {
+      "department": "lasan",
+      "clearances": [
+        {"type": "lid_compliance", "description": "Low Impact Development stormwater compliance", "always_required": true},
+        {"type": "green_streets", "description": "Green streets requirement", "always_required": false}
+      ]
+    },
+    {
+      "department": "lahd",
+      "clearances": [
+        {"type": "rent_stabilization", "description": "Rent Stabilization Ordinance clearance", "always_required": false, "condition": "is_multi_unit"}
+      ]
+    },
+    {
+      "department": "la_county",
+      "clearances": [
+        {"type": "geotechnical_review", "description": "Geotechnical/soils report review", "always_required": false, "condition": "is_geological_hazard"},
+        {"type": "flood_zone_review", "description": "Flood zone compliance review", "always_required": false, "condition": "is_flood_zone"}
+      ]
+    }
+  ],
+  "inspection_types": [
+    "foundation",
+    "framing",
+    "rough_electrical",
+    "rough_plumbing",
+    "rough_mechanical",
+    "insulation",
+    "drywall",
+    "final_electrical",
+    "final_plumbing",
+    "final_mechanical",
+    "final_building",
+    "grading_pre",
+    "grading_final",
+    "fire_sprinkler",
+    "fire_final"
+  ]
+}

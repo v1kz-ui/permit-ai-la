@@ -1,0 +1,125 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "done": "Done",
+    "search": "Search"
+  },
+  "tabs": {
+    "home": "Home",
+    "clearances": "Clearances",
+    "chat": "Assistant",
+    "settings": "Settings"
+  },
+  "home": {
+    "title": "My Rebuild Projects",
+    "subtitle": "Track your fire rebuild permit progress",
+    "noProjects": "Ready to start your rebuild",
+    "noProjectsHelp": "We'll guide you through every step of the permit process.",
+    "startFirst": "Start Your First Project",
+    "createProject": "Create New Project",
+    "activeProjects": "Active Projects",
+    "completedProjects": "Completed",
+    "errorTitle": "We couldn't load your projects right now",
+    "errorSubtext": "Your data is safe — this is usually a temporary connection issue.",
+    "tryAgain": "Try Again",
+    "createA11y": "Create new rebuild project"
+  },
+  "project": {
+    "status": "Status",
+    "pathway": "Permit Pathway",
+    "clearances": "Clearances",
+    "inspections": "Inspections",
+    "documents": "Documents",
+    "timeline": "Estimated Timeline",
+    "uploadDocument": "Upload Document",
+    "viewClearances": "View All Clearances",
+    "estimatedDays": "{{days}} days estimated",
+    "address": "Address",
+    "apn": "APN",
+    "created": "Created",
+    "pathways": {
+      "eo1_like_for_like": "EO1 - Like for Like",
+      "eo8_expanded": "EO8 - Expanded",
+      "standard": "Standard Permit"
+    },
+    "statuses": {
+      "intake": "Intake",
+      "in_review": "In Review",
+      "approved": "Approved",
+      "issued": "Issued",
+      "inspection": "Inspection",
+      "final": "Final",
+      "closed": "Closed"
+    }
+  },
+  "clearance": {
+    "notStarted": "Not Started",
+    "inReview": "In Review",
+    "approved": "Approved",
+    "conditional": "Conditional",
+    "denied": "Denied",
+    "department": "Department",
+    "type": "Type",
+    "predictedDays": "{{days}} days predicted",
+    "isBottleneck": "Bottleneck detected",
+    "noClearances": "No clearances to track",
+    "progress": "{{completed}} of {{total}} complete"
+  },
+  "chat": {
+    "placeholder": "Ask about your permit...",
+    "title": "Permit Assistant",
+    "welcome": "Hi! I'm your permit assistant. Ask me anything about your fire rebuild permit process.",
+    "thinking": "Thinking...",
+    "errorMessage": "Sorry, I couldn't process your message. Please try again.",
+    "examples": {
+      "title": "Try asking:",
+      "q1": "What clearances do I need?",
+      "q2": "How long will my permit take?",
+      "q3": "What documents should I submit?"
+    }
+  },
+  "upload": {
+    "title": "Upload Document",
+    "takePhoto": "Take Photo",
+    "chooseFile": "Choose File",
+    "documentType": "Document Type",
+    "uploading": "Uploading...",
+    "success": "Document uploaded successfully",
+    "types": {
+      "plans": "Building Plans",
+      "permit_application": "Permit Application",
+      "insurance": "Insurance Documents",
+      "photos": "Site Photos",
+      "other": "Other"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "notifications": "Notifications",
+    "pushNotifications": "Push Notifications",
+    "smsNotifications": "SMS Notifications",
+    "emailNotifications": "Email Notifications",
+    "appearance": "Appearance",
+    "darkMode": "Dark Mode",
+    "about": "About",
+    "version": "Version",
+    "logout": "Log Out",
+    "logoutConfirm": "Are you sure you want to log out?"
+  },
+  "notifications": {
+    "clearanceUpdate": "Clearance Update",
+    "inspectionScheduled": "Inspection Scheduled",
+    "documentRequired": "Document Required",
+    "permitUpdate": "Permit Status Update",
+    "bottleneckDetected": "Bottleneck Detected"
+  }
+}

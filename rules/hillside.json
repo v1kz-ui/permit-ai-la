@@ -1,0 +1,33 @@
+{
+  "rule_id": "hillside",
+  "name": "Hillside Development Requirements",
+  "version": "1.0.0",
+  "description": "Additional requirements for properties in designated hillside areas",
+  "trigger_condition": {"field": "is_hillside", "operator": "eq", "value": true},
+  "additional_clearances": [
+    {
+      "type": "grading_permit",
+      "department": "ladbs",
+      "description": "Grading permit for earthwork on hillside lots",
+      "typical_days": 30
+    },
+    {
+      "type": "geotechnical_review",
+      "department": "la_county",
+      "description": "Geotechnical/soils report review",
+      "typical_days": 21
+    },
+    {
+      "type": "haul_route",
+      "department": "boe",
+      "description": "Haul route approval for construction debris and materials",
+      "typical_days": 14
+    }
+  ],
+  "restrictions": [
+    "Maximum Residential Floor Area (RFA) limits apply",
+    "Retaining wall height limitations",
+    "Grading quantity limits per LAMC 91.7006",
+    "Protected tree removal requires separate permit"
+  ]
+}
