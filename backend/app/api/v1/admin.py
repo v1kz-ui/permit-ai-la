@@ -5,7 +5,7 @@ from uuid import UUID
 
 import structlog
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import func, select, update
+from sqlalchemy import func, select, text, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
@@ -274,30 +274,18 @@ async def system_health(
 
     # Pipeline queue depth (approximate via pending clearances)
     try:
-        pending_count = (
-            await db.execute(
-                select(func.count()).select_from(
-                    select(Clearance)
-                    .where(Clearance.status.in_(["not_started", "in_review"]))
-                    .subquery()
-                )
-            )
-        ).scalar() or 0
+        pending_count = (await db.execute(
+            text("SELECT COUNT(*) FROM clearances WHERE status IN ('not_started', 'in_review')")
+        )).scalar() or 0
         health["queue_depth"] = pending_count
     except Exception:
         health["queue_depth"] = None
 
     # Active projects count
     try:
-        active_count = (
-            await db.execute(
-                select(func.count()).select_from(
-                    select(Project)
-                    .where(Project.status.notin_(["closed", "final"]))
-                    .subquery()
-                )
-            )
-        ).scalar() or 0
+        active_count = (await db.execute(
+            text("SELECT COUNT(*) FROM projects WHERE status NOT IN ('closed', 'final')")
+        )).scalar() or 0
         health["active_projects"] = active_count
     except Exception:
         health["active_projects"] = None

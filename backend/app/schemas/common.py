@@ -18,8 +18,10 @@ class ProjectPathway(str, enum.Enum):
 
 class ProjectStatus(str, enum.Enum):
     INTAKE = "intake"
+    IN_REVIEW = "in_review"
     PLAN_CHECK = "plan_check"
     CLEARANCES_IN_PROGRESS = "clearances_in_progress"
+    APPROVED = "approved"
     READY_FOR_ISSUE = "ready_for_issue"
     ISSUED = "issued"
     INSPECTION = "inspection"
@@ -49,6 +51,8 @@ class ClearanceStatus(str, enum.Enum):
 
 class InspectionStatus(str, enum.Enum):
     SCHEDULED = "scheduled"
+    PASSED = "passed"
+    FAILED = "failed"
     COMPLETED_PASS = "completed_pass"
     COMPLETED_FAIL = "completed_fail"
     CANCELLED = "cancelled"

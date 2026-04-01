@@ -16,12 +16,14 @@ class Clearance(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         UUID(as_uuid=True), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False
     )
     department: Mapped[str] = mapped_column(
-        ENUM(ClearanceDepartment, name="clearance_department", create_type=True),
+        ENUM(ClearanceDepartment, name="clearance_department", create_type=False,
+             values_callable=lambda x: [e.value for e in x]),
         nullable=False,
     )
     clearance_type: Mapped[str] = mapped_column(String(100), nullable=False)
     status: Mapped[str] = mapped_column(
-        ENUM(ClearanceStatus, name="clearance_status", create_type=True),
+        ENUM(ClearanceStatus, name="clearance_status", create_type=False,
+             values_callable=lambda x: [e.value for e in x]),
         nullable=False,
         default=ClearanceStatus.NOT_STARTED,
     )

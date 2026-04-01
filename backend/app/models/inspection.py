@@ -18,7 +18,8 @@ class Inspection(UUIDPrimaryKeyMixin, TimestampMixin, Base):
 
     inspection_type: Mapped[str] = mapped_column(String(100), nullable=False)
     status: Mapped[str] = mapped_column(
-        ENUM(InspectionStatus, name="inspection_status", create_type=True),
+        ENUM(InspectionStatus, name="inspection_status", create_type=False,
+             values_callable=lambda x: [e.value for e in x]),
         nullable=False,
         default=InspectionStatus.SCHEDULED,
     )

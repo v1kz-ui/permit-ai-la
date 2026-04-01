@@ -24,7 +24,8 @@ class Document(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     file_size_bytes: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
 
     document_type: Mapped[str] = mapped_column(
-        ENUM(DocumentType, name="document_type", create_type=True),
+        ENUM(DocumentType, name="document_type", create_type=False,
+             values_callable=lambda x: [e.value for e in x]),
         nullable=False,
         default=DocumentType.OTHER,
     )

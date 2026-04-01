@@ -17,11 +17,13 @@ class Notification(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     )
 
     type: Mapped[str] = mapped_column(
-        ENUM(NotificationType, name="notification_type", create_type=True),
+        ENUM(NotificationType, name="notification_type", create_type=False,
+             values_callable=lambda x: [e.value for e in x]),
         nullable=False,
     )
     channel: Mapped[str] = mapped_column(
-        ENUM(NotificationChannel, name="notification_channel", create_type=True),
+        ENUM(NotificationChannel, name="notification_channel", create_type=False,
+             values_callable=lambda x: [e.value for e in x]),
         nullable=False,
     )
 
@@ -30,7 +32,8 @@ class Notification(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     payload: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
 
     delivery_status: Mapped[str] = mapped_column(
-        ENUM(DeliveryStatus, name="delivery_status", create_type=True),
+        ENUM(DeliveryStatus, name="delivery_status", create_type=False,
+             values_callable=lambda x: [e.value for e in x]),
         nullable=False,
         default=DeliveryStatus.PENDING,
     )

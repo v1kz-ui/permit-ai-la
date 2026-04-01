@@ -33,12 +33,14 @@ class Project(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         String(50), unique=True, nullable=True, index=True
     )
     pathway: Mapped[str] = mapped_column(
-        ENUM(ProjectPathway, name="project_pathway", create_type=True),
+        ENUM(ProjectPathway, name="project_pathway", create_type=False,
+             values_callable=lambda x: [e.value for e in x]),
         nullable=False,
         default=ProjectPathway.UNKNOWN,
     )
     status: Mapped[str] = mapped_column(
-        ENUM(ProjectStatus, name="project_status", create_type=True),
+        ENUM(ProjectStatus, name="project_status", create_type=False,
+             values_callable=lambda x: [e.value for e in x]),
         nullable=False,
         default=ProjectStatus.INTAKE,
     )

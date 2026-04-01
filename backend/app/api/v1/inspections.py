@@ -5,7 +5,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from sqlalchemy import select
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db_session
@@ -314,22 +314,20 @@ async def get_inspector_routing(
     from app.models.inspection import Inspection
     from app.models.project import Project
 
-    stmt = (
-        select(Inspection, Project)
-        .join(Project, Inspection.project_id == Project.id)
-        .where(
-            and_(
-                Inspection.status == "scheduled",
-                cast(Inspection.scheduled_date, db.bind.dialect.name == "postgresql"
-                     and __import__("sqlalchemy").Date or __import__("sqlalchemy").Date)
-                     == target_date if False else Inspection.scheduled_date.isnot(None),
-            )
-        )
-        .limit(50)
-    )
-
     try:
-        rows = (await db.execute(stmt)).all()
+        result = await db.execute(
+            text("""
+                SELECT i.id, i.project_id, i.inspection_type, i.scheduled_date,
+                       i.inspector_name, p.address, p.id as proj_id
+                FROM inspections i
+                JOIN projects p ON i.project_id = p.id
+                WHERE i.status = 'scheduled'
+                AND i.scheduled_date IS NOT NULL
+                ORDER BY i.scheduled_date
+                LIMIT 50
+            """)
+        )
+        rows = result.fetchall()
     except Exception:
         rows = []
 

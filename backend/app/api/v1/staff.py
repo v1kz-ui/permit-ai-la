@@ -5,13 +5,14 @@ for city staff to monitor the fire-rebuild permit pipeline.
 """
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import case, func, select
+from sqlalchemy import case, func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db_session
 from app.middleware.auth import get_current_user
 from app.models.clearance import Clearance
 from app.models.project import Project
+from app.schemas.common import ProjectStatus, ClearanceStatus
 
 router = APIRouter(prefix="/staff", tags=["staff"])
 
@@ -29,48 +30,35 @@ async def get_dashboard_stats(
     """Aggregate stats for the staff dashboard homepage."""
     _require_staff(current_user)
 
-    # Active projects count
+    # Use raw SQL to avoid enum casting issues
     active_count = (await db.execute(
-        select(func.count(Project.id)).where(
-            Project.status.notin_(["closed", "final"])
-        )
+        text("SELECT COUNT(*) FROM projects WHERE status NOT IN ('closed', 'final')")
     )).scalar() or 0
 
-    # Pending clearances count
     pending_count = (await db.execute(
-        select(func.count(Clearance.id)).where(
-            Clearance.status.in_(["not_started", "in_review"])
-        )
+        text("SELECT COUNT(*) FROM clearances WHERE status IN ('not_started', 'in_review')")
     )).scalar() or 0
 
-    # Bottleneck count
     bottleneck_count = (await db.execute(
-        select(func.count(Clearance.id)).where(Clearance.is_bottleneck.is_(True))
+        text("SELECT COUNT(*) FROM clearances WHERE is_bottleneck = true")
     )).scalar() or 0
 
-    # Average predicted days
     avg_days = (await db.execute(
-        select(func.avg(Project.predicted_days_to_issue)).where(
-            Project.predicted_days_to_issue.isnot(None)
-        )
+        text("SELECT AVG(predicted_days_to_issue) FROM projects WHERE predicted_days_to_issue IS NOT NULL")
     )).scalar()
 
-    # Projects by pathway
     pathway_counts = (await db.execute(
-        select(Project.pathway, func.count(Project.id))
-        .group_by(Project.pathway)
+        text("SELECT pathway, COUNT(*) FROM projects GROUP BY pathway")
     )).all()
 
-    # Projects by status
     status_counts = (await db.execute(
-        select(Project.status, func.count(Project.id))
-        .group_by(Project.status)
+        text("SELECT status, COUNT(*) FROM projects GROUP BY status")
     )).all()
 
     return {
         "active_projects": active_count,
         "pending_clearances": pending_count,
-        "bottlenecks": bottleneck_count,
+        "bottlenecks_detected": bottleneck_count,
         "avg_days_to_issue": round(avg_days, 1) if avg_days else None,
         "projects_by_pathway": {str(p): c for p, c in pathway_counts},
         "projects_by_status": {str(s): c for s, c in status_counts},
@@ -86,13 +74,7 @@ async def get_department_workload(
     _require_staff(current_user)
 
     results = (await db.execute(
-        select(
-            Clearance.department,
-            Clearance.status,
-            func.count(Clearance.id),
-        )
-        .group_by(Clearance.department, Clearance.status)
-        .order_by(Clearance.department)
+        text("SELECT department, status, COUNT(*) FROM clearances GROUP BY department, status ORDER BY department")
     )).all()
 
     departments: dict[str, dict] = {}
@@ -123,29 +105,33 @@ async def get_bottlenecks(
     _require_staff(current_user)
 
     result = await db.execute(
-        select(Clearance, Project.address, Project.pathway)
-        .join(Project, Clearance.project_id == Project.id)
-        .where(Clearance.is_bottleneck.is_(True))
-        .where(Clearance.status.in_(["not_started", "in_review"]))
-        .order_by(Clearance.predicted_days.desc())
+        text("""
+            SELECT c.id, c.project_id, p.address, p.pathway, c.department,
+                   c.clearance_type, c.status, c.predicted_days, c.submitted_date
+            FROM clearances c
+            JOIN projects p ON c.project_id = p.id
+            WHERE c.is_bottleneck = true AND c.status IN ('not_started', 'in_review')
+            ORDER BY c.predicted_days DESC NULLS LAST
+            LIMIT 200
+        """)
     )
-    rows = result.all()
+    rows = result.fetchall()
 
     bottlenecks = []
-    for clearance, address, pathway in rows:
+    for row in rows:
         bottlenecks.append({
-            "clearance_id": str(clearance.id),
-            "project_id": str(clearance.project_id),
-            "address": address,
-            "pathway": str(pathway),
-            "department": str(clearance.department),
-            "clearance_type": clearance.clearance_type,
-            "status": str(clearance.status),
-            "predicted_days": clearance.predicted_days,
-            "submitted_date": clearance.submitted_date.isoformat() if clearance.submitted_date else None,
+            "clearance_id": str(row[0]),
+            "project_id": str(row[1]),
+            "address": row[2],
+            "pathway": str(row[3]) if row[3] else None,
+            "department": str(row[4]),
+            "clearance_type": row[5],
+            "status": str(row[6]),
+            "predicted_days": row[7],
+            "submitted_date": row[8].isoformat() if row[8] else None,
         })
 
-    return {"bottlenecks": bottlenecks, "count": len(bottlenecks)}
+    return bottlenecks
 
 
 @router.get("/dashboard/kanban")
@@ -160,18 +146,28 @@ async def get_kanban_view(
     """
     _require_staff(current_user)
 
-    query = (
-        select(Clearance, Project.address)
-        .join(Project, Clearance.project_id == Project.id)
-        .where(Project.status.notin_(["closed", "final"]))
-    )
-
+    # Use raw SQL to avoid enum casting issues
+    dept_filter = ""
+    params = {}
     if department:
-        query = query.where(Clearance.department == department)
+        dept_filter = "AND c.department = :dept"
+        params["dept"] = department
 
-    query = query.order_by(Clearance.created_at)
-    result = await db.execute(query)
-    rows = result.all()
+    result = await db.execute(
+        text(f"""
+            SELECT c.id, c.project_id, p.address, c.department, c.clearance_type,
+                   c.status, c.is_bottleneck, c.predicted_days, c.assigned_to,
+                   c.submitted_date, c.created_at
+            FROM clearances c
+            JOIN projects p ON c.project_id = p.id
+            WHERE p.status NOT IN ('closed', 'final')
+            {dept_filter}
+            ORDER BY c.created_at
+            LIMIT 1000
+        """),
+        params,
+    )
+    rows = result.fetchall()
 
     columns = {
         "not_started": [],
@@ -181,19 +177,19 @@ async def get_kanban_view(
         "denied": [],
     }
 
-    for clearance, address in rows:
-        status_key = str(clearance.status)
+    for row in rows:
+        status_key = str(row[5])
         if status_key in columns:
             columns[status_key].append({
-                "clearance_id": str(clearance.id),
-                "project_id": str(clearance.project_id),
-                "address": address,
-                "department": str(clearance.department),
-                "clearance_type": clearance.clearance_type,
-                "is_bottleneck": clearance.is_bottleneck,
-                "predicted_days": clearance.predicted_days,
-                "assigned_to": clearance.assigned_to,
-                "submitted_date": clearance.submitted_date.isoformat() if clearance.submitted_date else None,
+                "clearance_id": str(row[0]),
+                "project_id": str(row[1]),
+                "address": row[2],
+                "department": str(row[3]),
+                "clearance_type": row[4],
+                "is_bottleneck": row[6],
+                "predicted_days": row[7],
+                "assigned_to": row[8],
+                "submitted_date": row[9].isoformat() if row[9] else None,
             })
 
     return {
@@ -214,31 +210,50 @@ async def list_all_projects(
     """Staff view of all projects (no owner restriction)."""
     _require_staff(current_user)
 
-    query = select(Project)
-    if status:
-        query = query.where(Project.status == status)
-    if pathway:
-        query = query.where(Project.pathway == pathway)
+    # Use raw SQL to avoid enum casting issues
+    conditions = []
+    params: dict = {"limit": size, "offset": (page - 1) * size}
 
-    total = (await db.execute(select(func.count()).select_from(query.subquery()))).scalar() or 0
-    query = query.offset((page - 1) * size).limit(size).order_by(Project.created_at.desc())
-    result = await db.execute(query)
-    projects = result.scalars().all()
+    if status:
+        conditions.append("status = :status")
+        params["status"] = status
+    if pathway:
+        conditions.append("pathway = :pathway")
+        params["pathway"] = pathway
+
+    where_clause = ("WHERE " + " AND ".join(conditions)) if conditions else ""
+
+    total = (await db.execute(
+        text(f"SELECT COUNT(*) FROM projects {where_clause}"), params
+    )).scalar() or 0
+
+    result = await db.execute(
+        text(f"""
+            SELECT id, address, apn, pathway, status, predicted_days_to_issue,
+                   created_at, is_coastal_zone, is_hillside
+            FROM projects
+            {where_clause}
+            ORDER BY created_at DESC
+            LIMIT :limit OFFSET :offset
+        """),
+        params,
+    )
+    rows = result.fetchall()
 
     return {
         "items": [
             {
-                "id": str(p.id),
-                "address": p.address,
-                "apn": p.apn,
-                "pathway": str(p.pathway),
-                "status": str(p.status),
-                "predicted_days": p.predicted_days_to_issue,
-                "created_at": p.created_at.isoformat(),
-                "is_coastal": p.is_coastal_zone,
-                "is_hillside": p.is_hillside,
+                "id": str(r[0]),
+                "address": r[1],
+                "apn": r[2],
+                "pathway": str(r[3]) if r[3] else "standard",
+                "status": str(r[4]) if r[4] else "intake",
+                "predicted_days": r[5],
+                "created_at": r[6].isoformat() if r[6] else None,
+                "is_coastal": r[7],
+                "is_hillside": r[8],
             }
-            for p in projects
+            for r in rows
         ],
         "total": total,
         "page": page,

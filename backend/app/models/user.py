@@ -21,12 +21,14 @@ class User(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     phone: Mapped[str | None] = mapped_column(String(20), nullable=True)
     role: Mapped[str] = mapped_column(
-        ENUM(UserRole, name="user_role", create_type=True),
+        ENUM(UserRole, name="user_role", create_type=False,
+             values_callable=lambda x: [e.value for e in x]),
         nullable=False,
         default=UserRole.HOMEOWNER,
     )
     language: Mapped[str] = mapped_column(
-        ENUM(Language, name="language", create_type=True),
+        ENUM(Language, name="language", create_type=False,
+             values_callable=lambda x: [e.value for e in x]),
         nullable=False,
         default=Language.EN,
     )
