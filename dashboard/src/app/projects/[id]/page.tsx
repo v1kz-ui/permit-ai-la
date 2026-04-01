@@ -8,6 +8,9 @@ import { api } from "@/lib/api";
 import { MOCK_PROJECTS } from "@/lib/mockData";
 import Link from "next/link";
 import JargonTip from "@/components/JargonTip";
+import CelebrationBanner from "@/components/CelebrationBanner";
+import PathwayExplainer from "@/components/PathwayExplainer";
+import DocumentUpload from "@/components/DocumentUpload";
 
 // Per-project mock clearances shown when API is offline
 const MOCK_CLEARANCES_BY_PROJECT: Record<string, any[]> = {
@@ -49,6 +52,8 @@ export default async function ProjectDetailPage({
   );
 
   ({ project, clearances } = await fetchProjectData(params.id));
+
+  const allApproved = clearances.length > 0 && clearances.every((c: any) => c.status === "approved");
 
   const overlays = [
     { label: "Coastal Zone", active: project.is_coastal, color: "bg-cyan-100 text-cyan-700" },
@@ -113,6 +118,19 @@ export default async function ProjectDetailPage({
         </div>
 
         <div className="px-8 py-8 space-y-6">
+          {/* Pathway Explainer */}
+          {project.pathway && (
+            <PathwayExplainer
+              pathway={project.pathway}
+              isCoastal={project.is_coastal}
+              isHillside={project.is_hillside}
+              isVHFHSZ={project.is_vhfsz}
+              isHPOZ={project.is_hpoz}
+              sqft={project.proposed_sqft}
+              pathwayConfidence={project.pathway_confidence}
+            />
+          )}
+
           {/* Stats row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
@@ -135,6 +153,9 @@ export default async function ProjectDetailPage({
             currentPhase={derivePhase(clearances)}
             completedPhases={deriveCompleted(clearances)}
           />
+
+          {/* Celebration banner when all clearances approved */}
+          <CelebrationBanner show={allApproved} />
 
           {/* Recommended next actions */}
           <NextActions clearances={clearances} projectId={params.id} />
@@ -199,6 +220,9 @@ export default async function ProjectDetailPage({
               <p className="text-slate-400 text-sm">No clearances found for this project.</p>
             )}
           </div>
+
+          {/* Document Upload */}
+          <DocumentUpload projectId={params.id} />
 
           {/* PathfinderAI Analysis */}
           <div className="card">

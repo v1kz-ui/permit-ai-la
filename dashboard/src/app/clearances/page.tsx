@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, Suspense } from "react";
+import { useEffect, useState, useCallback, useRef, Suspense } from "react";
 import {
   DndContext,
   DragEndEvent,
@@ -191,7 +191,7 @@ export default function ClearancesPage() {
     prevKanban: KanbanData;
   } | null>(null);
   // Snapshot of kanban at drag-start, used for undo rollback
-  const dragStartKanbanRef = { current: kanban as KanbanData };
+  const dragStartKanbanRef = useRef<KanbanData>(kanban);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
@@ -201,10 +201,25 @@ export default function ClearancesPage() {
   useEffect(() => {
     api.staff
       .kanban()
-      .then((data) => {
+      .then((rawData: any) => {
+        // Handle both { columns: {...} } and flat { not_started: [], ... } formats
+        const data = rawData.columns || rawData;
         const hasData = Object.values(data).some((col: any) => Array.isArray(col) && col.length > 0);
         if (hasData) {
-          setKanban(data as KanbanData);
+          // Deduplicate cards by id within each column to prevent React key warnings
+          const deduped: KanbanData = { not_started: [], in_review: [], approved: [], conditional: [], denied: [] };
+          const seen = new Set<string>();
+          for (const col of Object.keys(deduped) as KanbanKey[]) {
+            if (Array.isArray(data[col])) {
+              for (const card of data[col]) {
+                if (!seen.has(card.id)) {
+                  seen.add(card.id);
+                  deduped[col].push(card);
+                }
+              }
+            }
+          }
+          setKanban(deduped);
           setDataSource("live");
         } else {
           setKanban(MOCK_KANBAN as KanbanData);

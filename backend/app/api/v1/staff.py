@@ -181,6 +181,7 @@ async def get_kanban_view(
         status_key = str(row[5])
         if status_key in columns:
             columns[status_key].append({
+                "id": str(row[0]),
                 "clearance_id": str(row[0]),
                 "project_id": str(row[1]),
                 "address": row[2],
@@ -192,10 +193,8 @@ async def get_kanban_view(
                 "submitted_date": row[9].isoformat() if row[9] else None,
             })
 
-    return {
-        "columns": columns,
-        "total": sum(len(v) for v in columns.values()),
-    }
+    # Return columns at top level (dashboard expects flat structure)
+    return columns
 
 
 @router.get("/dashboard/projects")
