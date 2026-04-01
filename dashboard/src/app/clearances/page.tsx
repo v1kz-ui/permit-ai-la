@@ -136,7 +136,7 @@ function KanbanColumn({
   activeId: string | null;
 }) {
   return (
-    <div className="flex-1 min-w-[220px] bg-slate-50 rounded-2xl border border-slate-200">
+    <div className="flex-1 min-w-[220px] bg-slate-50 rounded-2xl border border-slate-200" role="region" aria-label={`${col.label} column`}>
       <div className={`${col.headerColor} px-4 py-3 rounded-t-2xl flex items-center justify-between border-b border-slate-200`}>
         <div className="flex items-center gap-2">
           <span className={`w-2 h-2 rounded-full ${col.dot}`} />

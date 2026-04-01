@@ -1,7 +1,7 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
-// Fail fast so mock-data fallbacks kick in immediately when backend is offline
-function withTimeout<T>(promise: Promise<T>, ms = 500): Promise<T> {
+// Allow enough time for real database queries against 546K+ records
+function withTimeout<T>(promise: Promise<T>, ms = 5000): Promise<T> {
   return Promise.race([
     promise,
     new Promise<T>((_, reject) =>

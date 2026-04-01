@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import StatusBadge from "@/components/StatusBadge";
+import DataSourceBanner from "@/components/DataSourceBanner";
 import { api } from "@/lib/api";
 import { MOCK_INSPECTIONS_STATS, MOCK_INSPECTIONS } from "@/lib/mockData";
 import { useToast } from "@/components/Toast";
@@ -158,6 +159,8 @@ export default function InspectionsPage() {
   const [typeFilter, setTypeFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [isMockData, setIsMockData] = useState(false);
+  const [fetchTimestamp, setFetchTimestamp] = useState<number>(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -195,6 +198,8 @@ export default function InspectionsPage() {
       ]);
 
       if (!cancelled) {
+        setFetchTimestamp(Date.now());
+        let usedMock = false;
         if (statsResult.status === "fulfilled" && statsResult.value) {
           const s = statsResult.value as any;
           setStats({
@@ -205,13 +210,16 @@ export default function InspectionsPage() {
           });
         } else {
           setStats(MOCK_INSPECTIONS_STATS);
+          usedMock = true;
         }
 
         if (inspResult.status === "fulfilled" && Array.isArray(inspResult.value) && inspResult.value.length > 0) {
           setInspections(inspResult.value);
         } else {
           setInspections(MOCK_INSPECTIONS as Inspection[]);
+          usedMock = true;
         }
+        setIsMockData(usedMock);
         setLoading(false);
       }
     }
@@ -289,6 +297,8 @@ export default function InspectionsPage() {
             </button>
           </div>
         </div>
+
+        {isMockData && <DataSourceBanner source="mock" timestamp={fetchTimestamp} />}
 
         <div className="px-8 py-8 space-y-6">
           {/* KPI Cards */}

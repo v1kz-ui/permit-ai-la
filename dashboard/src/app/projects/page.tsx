@@ -3,6 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import StatusBadge from "@/components/StatusBadge";
 import ProjectsFilters from "@/components/ProjectsFilters";
 import Pagination from "@/components/Pagination";
+import DataSourceBanner from "@/components/DataSourceBanner";
 import { api } from "@/lib/api";
 import { MOCK_PROJECTS } from "@/lib/mockData";
 import Link from "next/link";
@@ -25,16 +26,19 @@ export default async function ProjectsPage({
           page,
           size: 20,
         });
-        return (!result.items || result.items.length === 0) ? MOCK_PROJECTS as typeof result : result;
+        if (!result.items || result.items.length === 0) {
+          return { data: MOCK_PROJECTS as typeof result, source: "mock" as const };
+        }
+        return { data: result, source: "live" as const };
       } catch {
-        return MOCK_PROJECTS as any;
+        return { data: MOCK_PROJECTS as any, source: "mock" as const };
       }
     },
     [`projects-${status}-${pathway}-${page}`],
     { revalidate: 30 }
   );
 
-  const data = await fetchProjects();
+  const { data, source } = await fetchProjects();
 
   const pathwayColors: Record<string, string> = {
     standard: "bg-slate-100 text-slate-700",
@@ -65,6 +69,8 @@ export default async function ProjectsPage({
             </Link>
           </div>
         </div>
+
+        {source === "mock" && <DataSourceBanner source="mock" />}
 
         <div className="px-8 py-6 space-y-5">
           {/* Filters */}

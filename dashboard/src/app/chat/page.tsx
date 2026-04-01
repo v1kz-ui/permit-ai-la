@@ -211,6 +211,7 @@ export default function ChatPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search projects..."
+              aria-label="Search projects"
               className="w-full pl-8 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all"
             />
           </div>
@@ -287,7 +288,7 @@ export default function ChatPage() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-6 py-6 scrollbar-thin">
+            <div className="flex-1 overflow-y-auto px-6 py-6 scrollbar-thin" role="log" aria-live="polite" aria-label="Chat messages">
               {messages.length === 0 && !typing && (
                 <div className="flex flex-col items-center justify-center h-full text-center">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-2xl mb-4 shadow-lg">
@@ -324,6 +325,7 @@ export default function ChatPage() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
                   placeholder="Ask about clearances, timelines, requirements… (Enter to send)"
+                  aria-label="Type your message"
                   className="flex-1 bg-transparent text-sm resize-none outline-none max-h-32 leading-relaxed text-slate-800 placeholder-slate-400"
                   disabled={typing}
                 />

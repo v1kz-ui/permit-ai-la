@@ -7,6 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import StatusBadge from "@/components/StatusBadge";
 import TrendChart from "@/components/TrendChart";
 import { SkeletonCard, SkeletonChart } from "@/components/Skeleton";
+import DataSourceBanner from "@/components/DataSourceBanner";
 import { api } from "@/lib/api";
 import { MOCK_STATS, MOCK_BOTTLENECKS, MOCK_PIPELINE, MOCK_TREND_DATA, MOCK_EQUITY_DATA } from "@/lib/mockData";
 import { useToast } from "@/components/Toast";
@@ -34,6 +35,8 @@ export default function AnalyticsPage() {
   const [trendMetric, setTrendMetric] = useState<MetricKey>("permits_issued");
   const [trendPeriod, setTrendPeriod] = useState<PeriodKey>("day");
   const [loading, setLoading] = useState(true);
+  const [isMockData, setIsMockData] = useState(false);
+  const [fetchTimestamp, setFetchTimestamp] = useState<number>(0);
 
   useEffect(() => {
     async function loadData() {
@@ -44,6 +47,16 @@ export default function AnalyticsPage() {
           api.analytics.pipeline().catch(() => null),
           api.analytics.equity().catch(() => null),
         ]);
+        setFetchTimestamp(Date.now());
+
+        // Track whether we fell back to mock data
+        const usedMock =
+          !statsRes ||
+          !pipelineRes ||
+          !(Array.isArray(bottlenecksRes) && bottlenecksRes.length > 0) ||
+          !equityRes;
+        setIsMockData(usedMock);
+
         setStats(statsRes || MOCK_STATS);
         setBottlenecks(Array.isArray(bottlenecksRes) && bottlenecksRes.length > 0 ? bottlenecksRes : MOCK_BOTTLENECKS);
         setPipeline(pipelineRes || MOCK_PIPELINE);
@@ -178,6 +191,8 @@ export default function AnalyticsPage() {
             </button>
           </div>
         </div>
+
+        {isMockData && <DataSourceBanner source="mock" timestamp={fetchTimestamp} />}
 
         <div className="px-8 py-8 space-y-8">
           {/* KPI Cards */}

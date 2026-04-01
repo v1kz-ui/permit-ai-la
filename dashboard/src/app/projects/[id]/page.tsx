@@ -7,6 +7,7 @@ import NextActions from "@/components/NextActions";
 import { api } from "@/lib/api";
 import { MOCK_PROJECTS } from "@/lib/mockData";
 import Link from "next/link";
+import JargonTip from "@/components/JargonTip";
 
 // Per-project mock clearances shown when API is offline
 const MOCK_CLEARANCES_BY_PROJECT: Record<string, any[]> = {
@@ -84,11 +85,21 @@ export default async function ProjectDetailPage({
                 <StatusBadge status={project.status} />
                 {project.pathway && (
                   <span className="badge bg-indigo-100 text-indigo-700 font-semibold">
-                    {project.pathway.toUpperCase()}
+                    {["eo1", "eo8"].includes(project.pathway.toLowerCase()) ? (
+                      <JargonTip term={project.pathway.toUpperCase()}>{project.pathway.toUpperCase()}</JargonTip>
+                    ) : (
+                      project.pathway.toUpperCase()
+                    )}
                   </span>
                 )}
                 {overlays.map((o) => (
-                  <span key={o.label} className={`badge ${o.color}`}>{o.label}</span>
+                  <span key={o.label} className={`badge ${o.color}`}>
+                    {["VHFSZ", "HPOZ"].includes(o.label) ? (
+                      <JargonTip term={o.label}>{o.label}</JargonTip>
+                    ) : (
+                      o.label
+                    )}
+                  </span>
                 ))}
               </div>
             </div>
@@ -107,11 +118,13 @@ export default async function ProjectDetailPage({
             {[
               { label: "Pathway", value: project.pathway?.toUpperCase() || "—" },
               { label: "Predicted Days", value: project.predicted_days != null ? `${project.predicted_days}d` : "—" },
-              { label: "APN", value: project.apn || "—" },
+              { label: "APN", value: project.apn || "—", jargon: true },
               { label: "Created", value: project.created_at ? new Date(project.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—" },
-            ].map((stat) => (
+            ].map((stat: { label: string; value: string; jargon?: boolean }) => (
               <div key={stat.label} className="card">
-                <p className="stat-label">{stat.label}</p>
+                <p className="stat-label">
+                  {stat.jargon ? <JargonTip term={stat.label}>{stat.label}</JargonTip> : stat.label}
+                </p>
                 <p className="text-lg font-bold text-slate-900 mt-1">{stat.value}</p>
               </div>
             ))}
@@ -164,7 +177,13 @@ export default async function ProjectDetailPage({
                         }`} />
                         <div>
                           <p className="font-medium text-sm text-slate-800">{c.clearance_type}</p>
-                          <p className="text-xs text-slate-500 mt-0.5">{c.department}</p>
+                          <p className="text-xs text-slate-500 mt-0.5">
+                            {["LADBS", "DCP", "LAFD", "LADWP", "LASAN", "DOT", "BOE"].includes(c.department) ? (
+                              <JargonTip term={c.department}>{c.department}</JargonTip>
+                            ) : (
+                              c.department
+                            )}
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">

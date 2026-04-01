@@ -127,7 +127,7 @@ export default async function DashboardHome() {
     <div className="flex h-full min-h-screen">
       <Sidebar />
 
-      <main className="flex-1 overflow-y-auto">
+      <main id="main-content" className="flex-1 overflow-y-auto">
         {/* Page header */}
         <div className="bg-white border-b border-slate-100 px-8 py-6">
           <div className="flex items-center justify-between">
@@ -149,6 +149,7 @@ export default async function DashboardHome() {
                   Live data
                 </span>
               )}
+              <span className="text-xs text-slate-400">Updated {new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}</span>
               <Link href="/projects/new" className="btn-primary">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -159,7 +160,7 @@ export default async function DashboardHome() {
           </div>
         </div>
 
-        {isMockData && <DataSourceBanner source="mock" timestamp={fetchTimestamp} />}
+        {isMockData && <div role="alert"><DataSourceBanner source="mock" timestamp={fetchTimestamp} /></div>}
 
         <div className="px-8 py-8 space-y-8">
           {/* Stat cards */}

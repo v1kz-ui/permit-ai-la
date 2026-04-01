@@ -4,6 +4,25 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
+const navGroups = [
+  {
+    label: "Operations",
+    items: ["Dashboard", "Projects", "Clearances", "Inspections"],
+  },
+  {
+    label: "Intelligence",
+    items: ["Analytics", "AI Assistant", "Compliance"],
+  },
+  {
+    label: "Public",
+    items: ["Impact"],
+  },
+  {
+    label: "Admin",
+    items: ["Admin", "Audit Log"],
+  },
+];
+
 const navItems = [
   {
     href: "/",
@@ -106,6 +125,14 @@ export default function Sidebar() {
 
   return (
     <>
+      {/* Skip navigation link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-1/2 focus:-translate-x-1/2 focus:z-[100] focus:bg-indigo-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-medium focus:shadow-lg"
+      >
+        Skip to main content
+      </a>
+
       {/* Mobile hamburger button */}
       <button
         onClick={() => setMobileOpen(true)}
@@ -153,35 +180,46 @@ export default function Sidebar() {
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto scrollbar-thin">
-          {navItems.map((item) => {
-            const isActive =
-              item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
-
+        <nav className="flex-1 px-3 py-4 overflow-y-auto scrollbar-thin" role="navigation" aria-label="Main navigation">
+          {navGroups.map((group, groupIdx) => {
+            const groupItems = group.items.map((name) => navItems.find((n) => n.label === name)!).filter(Boolean);
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group relative
-                  ${isActive
-                    ? "bg-white/15 text-white shadow-sm"
-                    : "text-slate-400 hover:text-white hover:bg-white/8"
-                  }`}
-              >
-                {isActive && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-indigo-400 rounded-r-full" />
-                )}
-                <span className={`flex-shrink-0 transition-colors ${isActive ? "text-indigo-300" : "text-slate-500 group-hover:text-slate-300"}`}>
-                  {item.icon}
-                </span>
-                <span className="flex-1">{item.label}</span>
-                {item.badge && (
-                  <span className="text-xs bg-indigo-500/30 text-indigo-300 px-1.5 py-0.5 rounded-md font-semibold">
-                    {item.badge}
-                  </span>
-                )}
-              </Link>
+              <div key={group.label}>
+                <p className={`text-[10px] uppercase tracking-wider text-slate-400 font-semibold px-3 ${groupIdx === 0 ? "mt-1" : "mt-5"} mb-2`}>{group.label}</p>
+                <div className="space-y-0.5">
+                  {groupItems.map((item) => {
+                    const isActive =
+                      item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setMobileOpen(false)}
+                        aria-current={isActive ? "page" : undefined}
+                        className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group relative
+                          ${isActive
+                            ? "bg-white/15 text-white shadow-sm"
+                            : "text-slate-400 hover:text-white hover:bg-white/8"
+                          }`}
+                      >
+                        {isActive && (
+                          <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-indigo-400 rounded-r-full" />
+                        )}
+                        <span className={`flex-shrink-0 transition-colors ${isActive ? "text-indigo-300" : "text-slate-500 group-hover:text-slate-300"}`}>
+                          {item.icon}
+                        </span>
+                        <span className="flex-1">{item.label}</span>
+                        {item.badge && (
+                          <span className="text-xs bg-indigo-500/30 text-indigo-300 px-1.5 py-0.5 rounded-md font-semibold">
+                            {item.badge}
+                          </span>
+                        )}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
             );
           })}
         </nav>
