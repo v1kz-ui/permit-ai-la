@@ -60,6 +60,12 @@ CLEARANCE_TEMPLATES = {
     "lahd": [
         {"type": "Housing Compliance Review", "days": (5, 14)},
     ],
+    "cultural_affairs": [
+        {"type": "Cultural Resource Review", "days": (10, 30)},
+    ],
+    "urban_forestry": [
+        {"type": "Tree Removal Permit", "days": (7, 21)},
+    ],
 }
 
 # Status progression probabilities based on project status
@@ -109,6 +115,14 @@ def pick_departments(project: dict) -> list[tuple[str, str, tuple[int, int]]]:
         depts.append(("dot", "Driveway/Access Review", (5, 14)))
     if random.random() < 0.2:
         depts.append(("boe", "Grading Plan Review", (10, 30)))
+
+    # Historic properties → Cultural Affairs
+    if project.get("is_historic"):
+        depts.append(("cultural_affairs", "Cultural Resource Review", (10, 30)))
+
+    # Some fire-damaged lots need tree work
+    if random.random() < 0.25:
+        depts.append(("urban_forestry", "Tree Removal Permit", (7, 21)))
 
     return depts
 

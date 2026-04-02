@@ -37,6 +37,9 @@ class ClearanceDepartment(str, enum.Enum):
     LADWP = "ladwp"
     LASAN = "lasan"
     LAHD = "lahd"
+    DOT = "dot"
+    CULTURAL_AFFAIRS = "cultural_affairs"
+    URBAN_FORESTRY = "urban_forestry"
     LA_COUNTY = "la_county"
 
 

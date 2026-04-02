@@ -4,13 +4,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 const departments = [
   { value: "", label: "All Departments" },
-  { value: "LADBS", label: "LADBS" },
-  { value: "LAFD", label: "LAFD" },
-  { value: "LADWP", label: "LADWP" },
-  { value: "Public Works", label: "Public Works" },
-  { value: "Planning", label: "Planning" },
-  { value: "Coastal Commission", label: "Coastal Commission" },
-  { value: "Transportation", label: "Transportation" },
+  { value: "ladbs", label: "LADBS" },
+  { value: "dcp", label: "City Planning (DCP)" },
+  { value: "boe", label: "Bureau of Engineering" },
+  { value: "lafd", label: "Fire Department (LAFD)" },
+  { value: "ladwp", label: "Water & Power (LADWP)" },
+  { value: "lasan", label: "Sanitation (LASAN)" },
+  { value: "lahd", label: "Housing (LAHD)" },
+  { value: "dot", label: "Transportation (DOT)" },
+  { value: "cultural_affairs", label: "Cultural Affairs" },
+  { value: "urban_forestry", label: "Urban Forestry" },
+  { value: "la_county", label: "LA County" },
 ];
 
 export default function DepartmentFilter({ basePath }: { basePath: string }) {

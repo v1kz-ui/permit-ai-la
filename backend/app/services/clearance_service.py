@@ -30,6 +30,7 @@ _FLAG_CLEARANCES: list[tuple[str, ClearanceDepartment, str]] = [
     ("is_flood_zone", ClearanceDepartment.BOE, "Flood Zone Review"),
     ("is_geological_hazard", ClearanceDepartment.LADBS, "Geotechnical Review"),
     ("has_hpoz", ClearanceDepartment.DCP, "HPOZ Board Review"),
+    ("is_historic", ClearanceDepartment.CULTURAL_AFFAIRS, "Cultural Resource Review"),
 ]
 
 # Every project always needs these baseline clearances.

@@ -55,7 +55,9 @@ export type ClearanceDepartment =
   | "ladwp"
   | "lasan"
   | "lahd"
-  | "dot";
+  | "dot"
+  | "cultural_affairs"
+  | "urban_forestry";
 
 export type ClearanceStatus =
   | "not_started"

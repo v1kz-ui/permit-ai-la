@@ -56,6 +56,27 @@
       ]
     },
     {
+      "department": "dot",
+      "clearances": [
+        {"type": "driveway_access", "description": "Driveway/curb cut access review", "always_required": false},
+        {"type": "traffic_study", "description": "Traffic impact analysis for major projects", "always_required": false, "condition": "is_major_project"}
+      ]
+    },
+    {
+      "department": "cultural_affairs",
+      "clearances": [
+        {"type": "cultural_resource_review", "description": "Cultural/archaeological resource review", "always_required": false, "condition": "is_historic"},
+        {"type": "public_art_compliance", "description": "Public art requirement for projects over $500K", "always_required": false}
+      ]
+    },
+    {
+      "department": "urban_forestry",
+      "clearances": [
+        {"type": "tree_removal_permit", "description": "Protected tree removal/relocation permit", "always_required": false},
+        {"type": "tree_replacement", "description": "Tree replacement plan compliance", "always_required": false}
+      ]
+    },
+    {
       "department": "la_county",
       "clearances": [
         {"type": "geotechnical_review", "description": "Geotechnical/soils report review", "always_required": false, "condition": "is_geological_hazard"},
